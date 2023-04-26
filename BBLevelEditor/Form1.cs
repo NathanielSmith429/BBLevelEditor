@@ -14,6 +14,13 @@ namespace BBLevelEditor
     public partial class Form1 : Form
     {
 
+        int x, y, hp, color;
+
+        private void button55_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -22,14 +29,31 @@ namespace BBLevelEditor
         private void buildButton_Click(object sender, EventArgs e)
         {
 
+            XmlWriter writer = XmlWriter.Create("brickTest.xml");
+
+            writer.WriteStartElement("Bricks");
+
             foreach (Control c in panel1.Controls)
             {
                 if (c is Button)
                 {
+                    string xLocation = Convert.ToString(c.Location.X);
+                    string yLocation = Convert.ToString(c.Location.Y);
+                    string hpValue = Convert.ToString(c.Text);
                    
+                    writer.WriteStartElement("brick");
+                    writer.WriteElementString("X", xLocation);
+                    writer.WriteElementString("Y", yLocation);
+                    writer.WriteElementString("HP", hpValue);
+                    
+
+                    writer.WriteEndElement();
+
                 }
             }
-      
+            writer.WriteEndElement();
+            writer.Close();
+
         }
     }
 }
